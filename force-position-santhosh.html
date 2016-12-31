@@ -32,8 +32,10 @@
 var svg = d3.select("body").append("svg").attr("width",width)
             .attr("height",height);
 
-var nodeData = [{'x':Math.round(Math.random() * (height)),'y':Math.round(Math.random() * (height)),'id':'First'}];
+// var nodeData = [{'x':Math.round(Math.random() * (height)),'y':Math.round(Math.random() * (height)),'id':'First'}];
+var nodeData = [{'x':300,'y':300,'id':'First'}];
 
+console.log(nodeData[0]);
 var simulation = d3.forceSimulation(nodeData);
 
 simulation.force("xAxis",d3.forceX(width/2))

@@ -1,4 +1,5 @@
-// add force to word positions
+// still trying to add force to word positions
+// it might have something to do with using groups
 
 var margin = {top: 10, right: 10, bottom: 30, left: 10},
     width = window.innerWidth,
@@ -10,11 +11,14 @@ var locations = d3.range(10).map(function() {
     y: Math.round(Math.random() * (height)),
   };
 });
-
+console.log(locations[0]);
 var simulation = d3.forceSimulation(locations);
 
-simulation.force("xAxis",d3.forceX(function(d) { return d.fx; }))
-          .force("yAxis",d3.forceY(function(d) { return d.fy; }));
+// simulation.force("xAxis",d3.forceX(function(d) { return d.fx; }))
+//           .force("yAxis",d3.forceY(function(d) { return d.fy; }));
+
+simulation.force("xAxis",d3.forceX(width/2))
+          .force("yAxis",d3.forceY(height/2));
 
 // var color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -22,7 +26,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var group = svg.selectAll('g')
+var words = svg.selectAll('g')
   .data(locations)
   .enter().append("g")
   // .attr("transform",
@@ -46,52 +50,23 @@ group.append("text")
        .attr("text-anchor", "start")
        .text(function(d,i){ return textArray[i]});
 
-      //  function dragstarted(d)
-      //  {
-      //     simulation.restart();
-      //     simulation.alpha(1.0);
-      //     d.fx = d.x;
-      //     d.fy = d.y;
-      //  }
-       //
-      //  function dragged(d)
-      //  {
-      //     d.fx = d3.event.x;
-      //     d.fy = d3.event.y;
-      //  }
-       //
-      //  function dragended(d)
-      //  {
-      //     d.fx = null;
-      //     d.fy = null;
-      //     simulation.alphaTarget(0.1);
-      //  }
-       //
-      //  function ticked(){
-      //      node.attr("cx", function(d){ return d.x;})
-      //          .attr("cy", function(d){ return d.y;})
-      //  }
-       //
-      //  simulation.on("tick",ticked);
-
-
-
 
 function dragstarted(d) {
   d3.select(this).raise().classed("active", true);
-      simulation.restart();
-      simulation.alpha(1.0);
-      d.fx = d.x;
-      d.fy = d.y;
+  simulation.restart();
+  simulation.alpha(1.0);
+  d.fx = d.x;
+  d.fy = d.y;
 }
 
 function dragged(d) {
-  d3.select(this).select("text")
-    .attr("x", d.fx = d3.event.x)
-    .attr("y", d.fy = d3.event.y);
-  // d3.select(this).select("rect")
-  //   .attr("x", d.x = d3.event.x)
-  //   .attr("y", d.y = d3.event.y);
+
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+
+  // d3.select(this).select("text")
+  //   .attr("x", d.fx = d3.event.x)
+  //   .attr("y", d.fy = d3.event.y);
 }
 
 function dragended(d) {
